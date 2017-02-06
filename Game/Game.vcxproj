@@ -98,7 +98,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;physfs.lib;SoloudStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -111,7 +111,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;physfs.lib;SoloudStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -126,7 +126,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -143,7 +143,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
