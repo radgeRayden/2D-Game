@@ -7,8 +7,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <cpplog/cpplog.hpp>
+#include <PhysFS++/physfs.hpp>
 
-cpplog::StdErrLogger logger;
+#include "Shader.h"
+
+static cpplog::StdErrLogger logger;
+static Shader currentShader;
 
 float GetDeltaTime() {
     static uint64_t lastMeasure = 0;
@@ -16,7 +20,7 @@ float GetDeltaTime() {
     uint64_t delta = currentMeasure - lastMeasure;
     lastMeasure = currentMeasure;
 
-    return (delta) / (float)SDL_GetPerformanceFrequency();
+    return delta / (float)SDL_GetPerformanceFrequency();
 }
 
 void GameUpdate(float dt) {
@@ -24,7 +28,16 @@ void GameUpdate(float dt) {
 }
 
 void GameDraw() {
-
+    glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, 0.1f, 100.0f);
+    glm::mat4 model;
+    glm::mat4 view;
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    GLuint modelLoc = glGetUniformLocation(currentShader.ProgramID(), "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    GLuint viewLoc = glGetUniformLocation(currentShader.ProgramID(), "view");
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    GLuint projectionLoc = glGetUniformLocation(currentShader.ProgramID(), "projection");
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 }
 
 
@@ -48,8 +61,13 @@ int main(int argc, char** argv) {
     gl3wInit();
     glEnable(GL_MULTISAMPLE);
 
-    glm::vec4 clearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    //the mount dir must be set before any game resources are loaded
+    PhysFS::init(argv[0]);
+    PhysFS::mount("../Data", "", true);
 
+    //rendering default variables
+    glm::vec4 clearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    
     /* Main loop */
     bool done = false;
     SDL_Event event;
@@ -76,6 +94,8 @@ int main(int argc, char** argv) {
         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        //eeww
+        currentShader.Use();
         GameDraw();
         
         SDL_GL_SwapWindow(window);

@@ -31,5 +31,13 @@
     <ClCompile Include="3rdParty\PhysFS++\physfs.cpp">
       <Filter>3rd Party\PhysFS++</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
