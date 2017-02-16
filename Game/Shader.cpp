@@ -126,7 +126,7 @@ GLchar* Shader::defaultFragmentSource = {
                     in vec2 TexCoord;\n\
                     uniform sampler2D ourTexture;\n\
                     void main() {\n\
-                        color = texture(ourTexture, TexCoord);\n\
+                        color = texture(ourTexture, TexCoord) * vertexColor;\n\
                     }" 
 };
 

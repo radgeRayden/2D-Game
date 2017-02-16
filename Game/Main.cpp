@@ -42,7 +42,7 @@ void GameDraw() {
 
 
 int main(int argc, char** argv) {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+    if (SDL_Init(SDL_INIT_TIMER) != 0) {
         //TODO: change this to a file log since the user probably cannot even see this otherwise.
         LOG_ERROR(logger) << SDL_GetError() << std::endl;
         return 1;
@@ -95,6 +95,7 @@ int main(int argc, char** argv) {
             }
         }
 
+        deltaTime = GetDeltaTime();
         GameUpdate(deltaTime);
 
         /* Basic rendering maintenance */
