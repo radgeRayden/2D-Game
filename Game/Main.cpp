@@ -42,6 +42,12 @@ void GameDraw() {
 
 
 int main(int argc, char** argv) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+        //TODO: change this to a file log since the user probably cannot even see this otherwise.
+        LOG_ERROR(logger) << SDL_GetError() << std::endl;
+        return 1;
+    }
+
     /* Setup window and OpenGL context */
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
