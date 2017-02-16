@@ -16,7 +16,7 @@ private:
     void Shader::deleteShaderStages(GLuint vertexShader, GLuint fragmentShader);
     static GLchar* defaultVertexSource;
     static GLchar* defaultFragmentSource;
-    GLuint programID;
+    GLuint programID = 0;
     bool vertexCompilationSuccesful = false;
     bool fragmentCompilationSuccessful = false;
     bool shaderLinkingSuccessful = false;

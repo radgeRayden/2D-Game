@@ -20,7 +20,7 @@ float GetDeltaTime() {
     uint64_t delta = currentMeasure - lastMeasure;
     lastMeasure = currentMeasure;
 
-    return delta / (float)SDL_GetPerformanceFrequency();
+    return delta / static_cast<float>(SDL_GetPerformanceFrequency());
 }
 
 void GameUpdate(float dt) {
@@ -41,7 +41,7 @@ void GameDraw() {
 }
 
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_TIMER) != 0) {
         //TODO: change this to a file log since the user probably cannot even see this otherwise.
         LOG_ERROR(logger) << SDL_GetError() << std::endl;

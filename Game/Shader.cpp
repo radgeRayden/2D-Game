@@ -48,7 +48,7 @@ Shader::Shader(const std::string& vertexShaderFilename, const std::string& fragm
     }
 
     //compile shader, emit error if reported, set success flags (x3).
-    GLint success;
+    GLint success = 0;
     GLchar infoLog[512] {};
     
     glCompileShader(vertexShader);
