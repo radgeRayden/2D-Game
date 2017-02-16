@@ -13,8 +13,11 @@ public:
 private:
     cpplog::StdErrLogger logger;
     GLchar* readDataFromFile(std::string fileName);
+    void Shader::deleteShaderStages(GLuint vertexShader, GLuint fragmentShader);
     static GLchar* defaultVertexSource;
     static GLchar* defaultFragmentSource;
     GLuint programID;
-    bool success;
+    bool vertexCompilationSuccesful = false;
+    bool fragmentCompilationSuccessful = false;
+    bool shaderLinkingSuccessful = false;
 };

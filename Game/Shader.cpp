@@ -12,7 +12,7 @@ GLuint Shader::ProgramID() {
 }
 
 bool Shader::Success() {
-    return this->success;
+    return vertexCompilationSuccesful && fragmentCompilationSuccessful && shaderLinkingSuccessful;
 }
 
 Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilename) {
@@ -20,6 +20,12 @@ Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilen
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
+    /*
+        We need to make sure of a few things here:
+        1 - there's a filename provided; if not, use the default shaders (for each non provided name);
+        2 - if given a name, the file can be properly loaded before sending the shader for compilation.
+        Manual checking is necessary since OpenGL requires a raw pointer to a C string.
+    */
     if (vertexShaderFilename == "") {
         glShaderSource(vertexShader, 1, &defaultVertexSource, 0);
     }
@@ -42,26 +48,29 @@ Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilen
         }
     }
 
+    //compile shader, emit error if reported, set success flags (x3).
     GLint success;
     GLchar infoLog[512] {};
-
+    
     glCompileShader(vertexShader);
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         LOG_ERROR(logger) << "Shader compile error: \n" << infoLog << endl;
-        this->success = false;
+        deleteShaderStages(vertexShader, fragmentShader);
         return;
     }
+    vertexCompilationSuccesful = true;
 
     glCompileShader(fragmentShader);
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
         LOG_ERROR(logger) << "Shader compile error: \n" << infoLog << endl;
-        this->success = false;
+        deleteShaderStages(vertexShader, fragmentShader);
         return;
     }
+    fragmentCompilationSuccessful = true;
 
     programID = glCreateProgram();
     glAttachShader(programID, vertexShader);
@@ -71,15 +80,12 @@ Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilen
     if (!success) {
         glGetProgramInfoLog(programID, 512, NULL, infoLog);
         LOG_ERROR(logger) << "Program linking error: \n" << infoLog << endl;
-        this->success = false;
+        deleteShaderStages(vertexShader, fragmentShader);
         return;
     }
+    shaderLinkingSuccessful = true;
 
-    //TODO: make sure these get cleaned correctly even if the shader compilation fails midway.
-    glDetachShader(programID, vertexShader);
-    glDeleteShader(vertexShader);
-    glDetachShader(programID, fragmentShader);
-    glDeleteShader(fragmentShader);
+    deleteShaderStages(vertexShader, fragmentShader);
 }
 
 void Shader::Use() {
@@ -99,30 +105,46 @@ GLchar* Shader::readDataFromFile(std::string fileName) {
     }
 }
 
-GLchar* Shader::defaultFragmentSource = 
-"#version 330 core\n\
-out vec4 color;\n\
-in vec4 vertexColor;\n\
-in vec2 TexCoord;\n\
-uniform sampler2D ourTexture;\n\
-void main() {\n\
-    color = texture(ourTexture, TexCoord);\n\
-}";
+//deletes only the shader stages that didn't fail to compile
+void Shader::deleteShaderStages(GLuint vertexShader, GLuint fragmentShader) {
+    if (vertexCompilationSuccesful) {
+        glDetachShader(programID, vertexShader);
+        glDeleteShader(vertexShader);
+    }
+    if (fragmentCompilationSuccessful) {
+        glDetachShader(programID, fragmentShader);
+        glDeleteShader(fragmentShader);
+    }
+}
 
-GLchar* Shader::defaultVertexSource =
-"#version 330 core\n\
-layout(location = 0) in vec3 position;\n\
-layout(location = 1) in vec2 texCoord;\n\
-out vec4 vertexColor;\n\
-out vec2 TexCoord;\n\
-uniform mat4 model;\n\
-uniform mat4 view;\n\
-uniform mat4 projection;\n\
-void main() {\n\
-    gl_Position = projection * view * model * vec4(position, 1.0);\n\
-    vertexColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n\
-    TexCoord = texCoord;\n\
-}";
+//curly braces so I can collapse the strings under the IDE.
+
+GLchar* Shader::defaultFragmentSource = {
+                    "#version 330 core\n\
+                    out vec4 color;\n\
+                    in vec4 vertexColor;\n\
+                    in vec2 TexCoord;\n\
+                    uniform sampler2D ourTexture;\n\
+                    void main() {\n\
+                        color = texture(ourTexture, TexCoord);\n\
+                    }" 
+};
+
+GLchar* Shader::defaultVertexSource = {
+                    "#version 330 core\n\
+                    layout(location = 0) in vec3 position;\n\
+                    layout(location = 1) in vec2 texCoord;\n\
+                    out vec4 vertexColor;\n\
+                    out vec2 TexCoord;\n\
+                    uniform mat4 model;\n\
+                    uniform mat4 view;\n\
+                    uniform mat4 projection;\n\
+                    void main() {\n\
+                        gl_Position = projection * view * model * vec4(position, 1.0);\n\
+                        vertexColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n\
+                        TexCoord = texCoord;\n\
+                    }" 
+};
 
 Shader::~Shader() {
 }

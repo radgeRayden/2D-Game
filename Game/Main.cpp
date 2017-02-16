@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
 
     //rendering default variables
     glm::vec4 clearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    currentShader = &Shader();
+    currentShader = &Shader(); //load default shader
 
     /* Main loop */
     bool done = false;
@@ -102,7 +102,9 @@ int main(int argc, char** argv) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         //eeww
-        currentShader->Use();
+        if (currentShader->Success()) {
+            currentShader->Use(); //we could probably handle this gracefully
+        }
         GameDraw();
         
         SDL_GL_SwapWindow(window);
