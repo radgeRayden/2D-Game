@@ -12,7 +12,7 @@
 #include "Shader.h"
 
 static cpplog::StdErrLogger logger;
-static Shader currentShader;
+static Shader* currentShader;
 
 float GetDeltaTime() {
     static uint64_t lastMeasure = 0;
@@ -32,11 +32,11 @@ void GameDraw() {
     glm::mat4 model;
     glm::mat4 view;
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    GLuint modelLoc = glGetUniformLocation(currentShader.ProgramID(), "model");
+    GLuint modelLoc = glGetUniformLocation(currentShader->ProgramID(), "model");
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    GLuint viewLoc = glGetUniformLocation(currentShader.ProgramID(), "view");
+    GLuint viewLoc = glGetUniformLocation(currentShader->ProgramID(), "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    GLuint projectionLoc = glGetUniformLocation(currentShader.ProgramID(), "projection");
+    GLuint projectionLoc = glGetUniformLocation(currentShader->ProgramID(), "projection");
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 }
 
@@ -73,7 +73,8 @@ int main(int argc, char** argv) {
 
     //rendering default variables
     glm::vec4 clearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    
+    currentShader = &Shader();
+
     /* Main loop */
     bool done = false;
     SDL_Event event;
@@ -101,7 +102,7 @@ int main(int argc, char** argv) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         //eeww
-        currentShader.Use();
+        currentShader->Use();
         GameDraw();
         
         SDL_GL_SwapWindow(window);

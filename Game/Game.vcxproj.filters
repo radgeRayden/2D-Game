@@ -34,9 +34,15 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
