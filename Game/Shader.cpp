@@ -7,16 +7,15 @@
 #include <cpplog/cpplog.hpp>
 #include <PhysFS++/physfs.hpp>
 
-GLuint Shader::ProgramID() {
-    return this->programID;
+GLuint Shader::ProgramID() const {
+    return programID;
 }
 
-bool Shader::Success() {
+bool Shader::Success() const {
     return vertexCompilationSuccesful && fragmentCompilationSuccessful && shaderLinkingSuccessful;
 }
 
-Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilename) {
-    using namespace std;
+Shader::Shader(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename) {
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -56,7 +55,7 @@ Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilen
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        LOG_ERROR(logger) << "Shader compile error: \n" << infoLog << endl;
+        LOG_ERROR(logger) << "Shader compile error: \n" << infoLog << std::endl;
         deleteShaderStages(vertexShader, fragmentShader);
         return;
     }
@@ -66,7 +65,7 @@ Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilen
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        LOG_ERROR(logger) << "Shader compile error: \n" << infoLog << endl;
+        LOG_ERROR(logger) << "Shader compile error: \n" << infoLog << std::endl;
         deleteShaderStages(vertexShader, fragmentShader);
         return;
     }
@@ -79,7 +78,7 @@ Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilen
     glGetProgramiv(programID, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(programID, 512, NULL, infoLog);
-        LOG_ERROR(logger) << "Program linking error: \n" << infoLog << endl;
+        LOG_ERROR(logger) << "Program linking error: \n" << infoLog << std::endl;
         deleteShaderStages(vertexShader, fragmentShader);
         return;
     }
@@ -88,11 +87,11 @@ Shader::Shader(std::string vertexShaderFilename, std::string fragmentShaderFilen
     deleteShaderStages(vertexShader, fragmentShader);
 }
 
-void Shader::Use() {
-    glUseProgram(this->programID);
+void Shader::Use() const {
+    glUseProgram(programID);
 }
 
-GLchar* Shader::readDataFromFile(std::string fileName) {
+GLchar* Shader::readDataFromFile(const std::string& fileName) {
     if (PhysFS::exists(fileName)) {
         PhysFS::ifstream file(fileName);
         GLchar* data = new GLchar[(size_t) file.length() + 1] { 0 };
@@ -147,4 +146,5 @@ GLchar* Shader::defaultVertexSource = {
 };
 
 Shader::~Shader() {
+    glDeleteProgram(programID);
 }

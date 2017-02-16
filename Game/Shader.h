@@ -5,14 +5,14 @@
 
 class Shader {
 public:
-    Shader(std::string vertexShaderFilename = "", std::string fragmentShaderFileName = "");
-    GLuint ProgramID();
-    bool Success();
-    void Use();
+    Shader(const std::string& vertexShaderFilename = "", const std::string& fragmentShaderFileName = "");
+    GLuint ProgramID() const;
+    bool Success() const;
+    void Use() const;
     ~Shader();
 private:
     cpplog::StdErrLogger logger;
-    GLchar* readDataFromFile(std::string fileName);
+    GLchar* readDataFromFile(const std::string& fileName);
     void Shader::deleteShaderStages(GLuint vertexShader, GLuint fragmentShader);
     static GLchar* defaultVertexSource;
     static GLchar* defaultFragmentSource;
