@@ -21,8 +21,10 @@ void Timer::Pause() {
 }
 
 void Timer::Start() {
-    referenceTime = SDL_GetTicks();
-    isPaused = false;
+    if (isPaused) {
+        referenceTime = SDL_GetTicks();
+        isPaused = false;
+    }
 }
 
 void Timer::Reset() {
@@ -32,14 +34,16 @@ void Timer::Reset() {
 }
 
 uint32_t Timer::Tell() {
-    //TODO: return scaled time since creation
-    //does this work?
+    //compressed time takes into account all scaling and rescaling done, without storing the operations.
     return compressedTime + (SDL_GetTicks() - referenceTime) * timeScale;
 }
 
 void Timer::SetScale(float scale) {
+    //compress time yet again
+    compressedTime = Tell();
+    //reset the reference from which Tell() measurements are taken, making compressedTime effective
+    referenceTime = SDL_GetTicks();
     timeScale = scale;
-    //TODO: set compressedTime taking scaled time into account
 }
 
 bool Timer::Paused() {
