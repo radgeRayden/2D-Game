@@ -15,7 +15,7 @@ public:
     float Step();
     /*
     Stores time elapsed since creation (scaled). Does not increment it until started again.
-    Does not affect stepping.
+    Stepping is scaled by zero if paused.
     */
     void Pause();
     /*

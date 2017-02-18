@@ -12,7 +12,12 @@ float Timer::Step() {
     uint64_t delta = currentMeasure - lastStepMeasure;
     lastStepMeasure = currentMeasure;
 
-    return timeScale * (delta / static_cast<float>(SDL_GetPerformanceFrequency()));
+    if (!isPaused) {
+        return timeScale * (delta / static_cast<float>(SDL_GetPerformanceFrequency()));
+    }
+    else {
+        return 0.0f;
+    }
 }
 
 void Timer::Pause() {
