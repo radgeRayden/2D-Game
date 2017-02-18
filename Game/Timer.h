@@ -28,12 +28,12 @@ public:
     void Reset();
     /*
     Gets time elapsed after creation (scaled).
+    For real time after creation, never change time scale.
     */
     uint32_t Tell();
     /*
     Sets time measurement scale. Stepping and telling will retrieve scaled timespans.
     Do note that changing time scale will not scale the whole timeline, only affecting measurements after the fact.
-    For real time after creation, never change time scale.
     */
     void SetScale(float scale);
     /*
