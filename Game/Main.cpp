@@ -10,18 +10,10 @@
 #include <PhysFS++/physfs.hpp>
 
 #include "Shader.h"
+#include "Timer.h"
 
 static cpplog::StdErrLogger logger;
 static Shader* currentShader;
-
-float GetDeltaTime() {
-    static uint64_t lastMeasure = 0;
-    uint64_t currentMeasure = SDL_GetPerformanceCounter();
-    uint64_t delta = currentMeasure - lastMeasure;
-    lastMeasure = currentMeasure;
-
-    return delta / static_cast<float>(SDL_GetPerformanceFrequency());
-}
 
 void GameUpdate(float dt) {
 
@@ -76,9 +68,12 @@ int main(int argc, char* argv[]) {
     currentShader = &Shader(); //load default shader
 
     /* Main loop */
+    Timer gameTimer;
+    float deltaTime;
+
     bool done = false;
     SDL_Event event;
-    float deltaTime = GetDeltaTime(); //needs to be called once before the loop so we discard the initialization time.
+
     while (!done) {
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
@@ -95,7 +90,7 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        deltaTime = GetDeltaTime();
+        deltaTime = gameTimer.Step();
         GameUpdate(deltaTime);
 
         /* Basic rendering maintenance */
