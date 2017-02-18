@@ -8,6 +8,7 @@ Timer::Timer() {
 }
 
 float Timer::Step() {
+    //best resolution guaranteed
     uint64_t currentMeasure = SDL_GetPerformanceCounter();
     uint64_t delta = currentMeasure - lastStepMeasure;
     lastStepMeasure = currentMeasure;

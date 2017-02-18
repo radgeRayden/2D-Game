@@ -46,5 +46,5 @@ private:
     uint32_t compressedTime = 0;
     uint32_t referenceTime;
     uint64_t lastStepMeasure = 0;
-    bool isPaused;
+    bool isPaused = false;
 };
