@@ -3,7 +3,7 @@
 #include <cstdint>
 
 /*
-Performs time measurement, absolute or scaled. Results are in miliseconds unless otherwise noted.
+Performs time measurement, absolute or scaled.
 */
 class Timer {
 public:
@@ -27,7 +27,7 @@ public:
     */
     void Reset();
     /*
-    Gets time elapsed after creation (scaled).
+    Gets time elapsed after creation (scaled), in miliseconds.
     For real time after creation, never change time scale.
     */
     uint32_t Tell();
