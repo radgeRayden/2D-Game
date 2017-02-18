@@ -17,7 +17,7 @@ private:
     static GLchar* defaultVertexSource;
     static GLchar* defaultFragmentSource;
     GLuint programID = 0;
-    bool vertexCompilationSuccesful = false;
+    bool vertexCompilationSuccessful = false;
     bool fragmentCompilationSuccessful = false;
     bool shaderLinkingSuccessful = false;
 };

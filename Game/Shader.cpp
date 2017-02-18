@@ -12,7 +12,7 @@ GLuint Shader::ProgramID() const {
 }
 
 bool Shader::Success() const {
-    return vertexCompilationSuccesful && fragmentCompilationSuccessful && shaderLinkingSuccessful;
+    return vertexCompilationSuccessful && fragmentCompilationSuccessful && shaderLinkingSuccessful;
 }
 
 Shader::Shader(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename) {
@@ -59,7 +59,7 @@ Shader::Shader(const std::string& vertexShaderFilename, const std::string& fragm
         deleteShaderStages(vertexShader, fragmentShader);
         return;
     }
-    vertexCompilationSuccesful = true;
+    vertexCompilationSuccessful = true;
 
     glCompileShader(fragmentShader);
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
@@ -106,7 +106,7 @@ GLchar* Shader::readDataFromFile(const std::string& fileName) {
 
 //deletes only the shader stages that didn't fail to compile
 void Shader::deleteShaderStages(GLuint vertexShader, GLuint fragmentShader) {
-    if (vertexCompilationSuccesful) {
+    if (vertexCompilationSuccessful) {
         glDetachShader(programID, vertexShader);
         glDeleteShader(vertexShader);
     }
