@@ -98,11 +98,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.5\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;physfs.lib;SoloudStatic.lib;freetyped.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(LibrariesDir)\soloud\build\bin_$(PlatformShortName)\SoloudStatic\$(Configuration);$(LibrariesDir)\SDL2-2.0.4\lib\$(PlatformShortName);$(LibrariesDir)\physfs-2.0.3\lib\$(PlatformShortName)\$(Configuration);$(LibrariesDir)\freetype-2.7.1\bin\$(PlatformShortName)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(LibrariesDir)\soloud\build\bin_$(PlatformShortName)\SoloudStatic\$(Configuration);$(LibrariesDir)\SDL2-2.0.5\lib\$(PlatformShortName);$(LibrariesDir)\physfs-2.0.3\lib\$(PlatformShortName)\$(Configuration);$(LibrariesDir)\freetype-2.7.1\bin\$(PlatformShortName)\$(Configuration)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -111,11 +111,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.5\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;physfs.lib;SoloudStatic.lib;freetyped.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(LibrariesDir)\soloud\build\bin_$(PlatformShortName)\SoloudStatic\$(Configuration);$(LibrariesDir)\SDL2-2.0.4\lib\$(PlatformShortName);$(LibrariesDir)\physfs-2.0.3\lib\$(PlatformShortName)\$(Configuration);$(LibrariesDir)\freetype-2.7.1\bin\$(PlatformShortName)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(LibrariesDir)\soloud\build\bin_$(PlatformShortName)\SoloudStatic\$(Configuration);$(LibrariesDir)\SDL2-2.0.5\lib\$(PlatformShortName);$(LibrariesDir)\physfs-2.0.3\lib\$(PlatformShortName)\$(Configuration);$(LibrariesDir)\freetype-2.7.1\bin\$(PlatformShortName)\$(Configuration)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -126,13 +126,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.5\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;physfs.lib;SoloudStatic.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(LibrariesDir)\soloud\build\bin_$(PlatformShortName)\SoloudStatic\$(Configuration);$(LibrariesDir)\SDL2-2.0.4\lib\$(PlatformShortName);$(LibrariesDir)\physfs-2.0.3\lib\$(PlatformShortName)\$(Configuration);$(LibrariesDir)\freetype-2.7.1\bin\$(PlatformShortName)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(LibrariesDir)\soloud\build\bin_$(PlatformShortName)\SoloudStatic\$(Configuration);$(LibrariesDir)\SDL2-2.0.5\lib\$(PlatformShortName);$(LibrariesDir)\physfs-2.0.3\lib\$(PlatformShortName)\$(Configuration);$(LibrariesDir)\freetype-2.7.1\bin\$(PlatformShortName)\$(Configuration)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -143,13 +143,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.4\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)3rdParty\;$(LibrariesDir)\SDL2-2.0.5\include;$(LibrariesDir)\freetype-2.7.1\include;$(LibrariesDir)\physfs-2.0.3;$(LibrariesDir)\soloud\include;$(LibrariesDir)\stb;$(LibrariesDir)\glm-0.9.8.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;SDL2.lib;SDL2main.lib;physfs.lib;SoloudStatic.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(LibrariesDir)\soloud\build\bin_$(PlatformShortName)\SoloudStatic\$(Configuration);$(LibrariesDir)\SDL2-2.0.4\lib\$(PlatformShortName);$(LibrariesDir)\physfs-2.0.3\lib\$(PlatformShortName)\$(Configuration);$(LibrariesDir)\freetype-2.7.1\bin\$(PlatformShortName)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(LibrariesDir)\soloud\build\bin_$(PlatformShortName)\SoloudStatic\$(Configuration);$(LibrariesDir)\SDL2-2.0.5\lib\$(PlatformShortName);$(LibrariesDir)\physfs-2.0.3\lib\$(PlatformShortName)\$(Configuration);$(LibrariesDir)\freetype-2.7.1\bin\$(PlatformShortName)\$(Configuration)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
