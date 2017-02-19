@@ -41,3 +41,5 @@
 *.lib
 
 .vs/
+Game/PropertySheet.props  
+ 
