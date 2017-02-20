@@ -65,7 +65,8 @@ int main(int argc, char* argv[]) {
 
     //rendering default variables
     glm::vec4 clearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    currentShader = &Shader(); //load default shader
+    Shader defaultShader; //load default shader
+    currentShader = &defaultShader; //CHANGE THIS
 
     /* Main loop */
     Timer gameTimer;

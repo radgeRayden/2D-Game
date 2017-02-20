@@ -118,7 +118,7 @@ void Shader::deleteShaderStages(GLuint vertexShader, GLuint fragmentShader) {
 
 //curly braces so I can collapse the strings under the IDE.
 
-GLchar* Shader::defaultFragmentSource = {
+const GLchar* Shader::defaultFragmentSource = {
                     "#version 330 core\n\
                     out vec4 color;\n\
                     in vec4 vertexColor;\n\
@@ -129,7 +129,7 @@ GLchar* Shader::defaultFragmentSource = {
                     }" 
 };
 
-GLchar* Shader::defaultVertexSource = {
+const GLchar* Shader::defaultVertexSource = {
                     "#version 330 core\n\
                     layout(location = 0) in vec3 position;\n\
                     layout(location = 1) in vec2 texCoord;\n\
