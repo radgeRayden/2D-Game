@@ -122,9 +122,12 @@ const GLchar* Shader::defaultFragmentSource = {
                     "#version 330 core\n\
                     in vec2 TexCoord;\n\
                     out vec4 color;\n\
-                    uniform sampler2D ourTexture;\n\
+                    uniform sampler2D boundTexture;\n\
                     void main() {\n\
-                        color = texture(ourTexture, TexCoord);\n\
+                        vec4 texColor = texture(boundTexture, TexCoord);\n\
+                        if (texColor.a < 0.1)\n\
+                            discard;\n\
+                        color = texColor;\n\
                     }" 
 };
 
