@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdint>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <GL/gl3w.h>
@@ -11,30 +12,36 @@
 
 #include "Shader.h"
 #include "Timer.h"
+#include "Sprite.h"
 
 static cpplog::StdErrLogger logger;
 static Shader* currentShader;
+static std::vector<Sprite> sprites;
 
 void GameUpdate(float dt) {
 
 }
 
 void GameDraw() {
-    glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, 0.1f, 100.0f);
+    glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f);
     glm::mat4 model;
+    model = glm::translate(model, glm::vec3(250, 250, 0.0f));
     glm::mat4 view;
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    GLuint modelLoc = glGetUniformLocation(currentShader->ProgramID(), "model");
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    GLuint viewLoc = glGetUniformLocation(currentShader->ProgramID(), "view");
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    GLuint projectionLoc = glGetUniformLocation(currentShader->ProgramID(), "projection");
-    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, 0.0f));
+    
+    glm::mat4 transform = projection * view * model;
+
+    GLuint transformLoc = glGetUniformLocation(currentShader->ProgramID(), "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
+    for (auto& sprite : sprites) {
+        sprite.Draw();
+    }
 }
 
 
 int main(int argc, char* argv[]) {
-    if (SDL_Init(SDL_INIT_TIMER) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
         //TODO: change this to a file log since the user probably cannot even see this otherwise.
         LOG_ERROR(logger) << SDL_GetError() << std::endl;
         return 1;
@@ -47,7 +54,7 @@ int main(int argc, char* argv[]) {
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
     SDL_DisplayMode current;
@@ -64,9 +71,11 @@ int main(int argc, char* argv[]) {
     PhysFS::mount("../Data", "", true);
 
     //rendering default variables
-    glm::vec4 clearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glm::vec4 clearColor(1.0f, 0.1f, 0.1f, 1.0f);
     Shader defaultShader; //load default shader
     currentShader = &defaultShader; //CHANGE THIS
+    Sprite testSprite("Sprites/do it.jpg");
+    sprites.push_back(testSprite);
 
     /* Main loop */
     Timer gameTimer;
@@ -97,7 +106,6 @@ int main(int argc, char* argv[]) {
         /* Basic rendering maintenance */
         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT);
-
         //eeww
         if (currentShader->Success()) {
             currentShader->Use(); //we could probably handle this gracefully

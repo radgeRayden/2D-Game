@@ -120,12 +120,11 @@ void Shader::deleteShaderStages(GLuint vertexShader, GLuint fragmentShader) {
 
 const GLchar* Shader::defaultFragmentSource = {
                     "#version 330 core\n\
-                    out vec4 color;\n\
-                    in vec4 vertexColor;\n\
                     in vec2 TexCoord;\n\
+                    out vec4 color;\n\
                     uniform sampler2D ourTexture;\n\
                     void main() {\n\
-                        color = texture(ourTexture, TexCoord) * vertexColor;\n\
+                        color = texture(ourTexture, TexCoord);\n\
                     }" 
 };
 
@@ -133,14 +132,10 @@ const GLchar* Shader::defaultVertexSource = {
                     "#version 330 core\n\
                     layout(location = 0) in vec3 position;\n\
                     layout(location = 1) in vec2 texCoord;\n\
-                    out vec4 vertexColor;\n\
                     out vec2 TexCoord;\n\
-                    uniform mat4 model;\n\
-                    uniform mat4 view;\n\
-                    uniform mat4 projection;\n\
+                    uniform mat4 transform;\n\
                     void main() {\n\
-                        gl_Position = projection * view * model * vec4(position, 1.0);\n\
-                        vertexColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n\
+                        gl_Position = transform * vec4(position, 1.0);\n\
                         TexCoord = texCoord;\n\
                     }" 
 };
