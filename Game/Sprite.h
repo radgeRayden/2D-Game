@@ -8,8 +8,7 @@ public:
     void Draw() const;
     ~Sprite();
 private:
-    GLuint VBO;
-    GLuint EBO;
     GLuint VAO;
+    GLuint texture;
 };
 

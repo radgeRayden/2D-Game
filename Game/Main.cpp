@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
     glm::vec4 clearColor(1.0f, 0.1f, 0.1f, 1.0f);
     Shader defaultShader; //load default shader
     currentShader = &defaultShader; //CHANGE THIS
-    Sprite testSprite("Sprites/do it.jpg");
+    Sprite testSprite("Sprites/spikeMan_jump.png");
     sprites.push_back(testSprite);
 
     /* Main loop */
