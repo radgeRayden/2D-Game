@@ -40,6 +40,12 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InputState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -49,6 +55,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputState.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundFile.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
