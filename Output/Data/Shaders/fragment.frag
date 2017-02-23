@@ -8,7 +8,7 @@ uniform sampler2D boundTexture;
 void main()
 {
     vec4 texColor = texture(boundTexture, TexCoord);
-                        if (texColor.a < 0.1)
-                            discard;
-                        color = texColor;
+    if (texColor.a < 0.1)
+        discard;
+    color = texColor;
 }
