@@ -13,13 +13,14 @@
 #include "Shader.h"
 #include "Timer.h"
 #include "Sprite.h"
+#include "InputState.h"
 
 static cpplog::StdErrLogger logger;
 static Shader* currentShader;
 static std::vector<Sprite> sprites;
 
-void GameUpdate(float dt) {
-
+void GameUpdate(float dt, const InputState currentInputState, const InputState previousInputState) {
+    
 }
 
 void GameDraw() {
@@ -71,7 +72,7 @@ int main(int argc, char* argv[]) {
     PhysFS::mount("../Data", "", true);
 
     //rendering default variables
-    glm::vec4 clearColor(1.0f, 0.1f, 0.1f, 1.0f);
+    glm::vec4 clearColor(1.0f, 1.0f, 0.0f, 1.0f);
     Shader defaultShader; //load default shader
     currentShader = &defaultShader; //CHANGE THIS
     Sprite testSprite("Sprites/spikeMan_jump.png");
@@ -80,6 +81,8 @@ int main(int argc, char* argv[]) {
     /* Main loop */
     Timer gameTimer;
     float deltaTime;
+    InputState currentInputState;
+    InputState previousInputState;
 
     bool done = false;
     SDL_Event event;
@@ -92,8 +95,10 @@ int main(int argc, char* argv[]) {
                     done = true;
                     break;
                 case SDL_KEYDOWN:
+                    currentInputState.SetKey(event.key.keysym.sym, true);
                     break;
                 case SDL_KEYUP:
+                    currentInputState.SetKey(event.key.keysym.sym, false);
                     break;
                 default:
                     break;
@@ -101,7 +106,9 @@ int main(int argc, char* argv[]) {
         }
 
         deltaTime = gameTimer.Step();
-        GameUpdate(deltaTime);
+        GameUpdate(deltaTime, currentInputState, previousInputState);
+        previousInputState = currentInputState;
+        currentInputState.Clear();
 
         /* Basic rendering maintenance */
         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
