@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <cstdint>
 #include <vector>
 
@@ -9,18 +9,31 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <cpplog/cpplog.hpp>
 #include <PhysFS++/physfs.hpp>
+#include <soloud.h>
+#include <soloud_wav.h>
+#include <soloud_wavstream.h>
 
 #include "Shader.h"
 #include "Timer.h"
 #include "Sprite.h"
 #include "InputState.h"
+#include "SoundFile.h"
 
 static cpplog::StdErrLogger logger;
 static Shader* currentShader;
 static std::vector<Sprite> sprites;
+static SoLoud::Soloud soloud;
+static SoLoud::handle backgroundMusic;
+static SoLoud::Wav tomatoJingleSource;
 
 void GameUpdate(float dt, const InputState currentInputState, const InputState previousInputState) {
-    
+    if (currentInputState.GetKey(SDLK_SPACE) && !previousInputState.GetKey(SDLK_SPACE)) {
+        bool shouldPause = !soloud.getPause(backgroundMusic);
+        soloud.setPause(backgroundMusic, shouldPause);
+    }
+    if (currentInputState.GetKey(SDLK_j) && !previousInputState.GetKey(SDLK_j)) {
+        soloud.play(tomatoJingleSource);
+    }
 }
 
 void GameDraw() {
@@ -62,14 +75,37 @@ int main(int argc, char* argv[]) {
     SDL_GetCurrentDisplayMode(0, &current);
     //TODO: make resolution configurable
     //TODO: Add SDL error handling / logging
-    SDL_Window *window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-    SDL_GLContext glcontext = SDL_GL_CreateContext(window);
+    auto *window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    auto glcontext = SDL_GL_CreateContext(window);
     gl3wInit();
     glEnable(GL_MULTISAMPLE);
 
     //the mount dir must be set before any game resources are loaded
     PhysFS::init(argv[0]);
     PhysFS::mount("../Data", "", true);
+
+    //sound variables
+    soloud.init();
+  
+    SoundFile bgFile("Audio/confection\342\231\245core.ogg");
+    SoLoud::WavStream backgroundMusicSource;
+    {
+        auto err = backgroundMusicSource.loadFile(&bgFile);
+        backgroundMusicSource.setLooping(true);
+        backgroundMusicSource.setSingleInstance(true);
+        backgroundMusic = soloud.play(backgroundMusicSource);
+        if (err) {
+            LOG_ERROR(logger) << soloud.getErrorString(err);
+        }
+    }
+
+    SoundFile sample("Audio/tomato.ogg");
+    {
+        auto err = tomatoJingleSource.loadFile(&sample);
+        if (err) {
+            LOG_ERROR(logger) << soloud.getErrorString(err);
+        }
+    }
 
     //rendering default variables
     glm::vec4 clearColor(1.0f, 1.0f, 0.0f, 1.0f);

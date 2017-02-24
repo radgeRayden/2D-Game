@@ -8,7 +8,11 @@ void InputState::SetKey(SDL_Keycode keyCode, bool value) {
 }
 
 bool InputState::GetKey(SDL_Keycode keyCode) const {
-    return keys.at(keyCode);
+    auto keyValue = keys.find(keyCode);
+    if (keyValue != keys.end()) {
+        return keyValue->second;
+    }
+    return false;
 }
 
 void InputState::Clear() {
