@@ -1,12 +1,16 @@
 #include "SoundFile.h"
 
-SoundFile::SoundFile(const char* filename) {
-    inputStream = new PhysFS::ifstream(filename);
+#include <memory>
+#include <string>
+
+#include <PhysFS++/physfs.hpp>
+
+SoundFile::SoundFile(const std::string& filename) {
+    inputStream = std::make_unique<PhysFS::ifstream>(filename);
 }
 
 
 SoundFile::~SoundFile() {
-    delete inputStream;
 }
 
 int SoundFile::eof() {

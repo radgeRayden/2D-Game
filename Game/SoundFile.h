@@ -1,10 +1,14 @@
 #pragma once
+#include <string>
+#include <memory>
+
 #include <soloud_file.h>
 #include <PhysFS++/physfs.hpp>
+
 class SoundFile : public SoLoud::File 
 {
 public:
-    SoundFile(const char *fileName);
+    SoundFile(const std::string& fileName);
     ~SoundFile();
     virtual int eof();
     virtual unsigned int read(unsigned char *aDst, unsigned int aBytes);
@@ -12,6 +16,6 @@ public:
     void seek(int aOffset);
     virtual unsigned int pos();
 private:
-    PhysFS::ifstream *inputStream;
+    std::unique_ptr<PhysFS::ifstream> inputStream;
 };
 
