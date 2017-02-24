@@ -19,7 +19,9 @@ private:
         { SDLK_UP, false },
         { SDLK_LEFT, false },
         { SDLK_DOWN, false },
-        { SDLK_RIGHT, false }
+        { SDLK_RIGHT, false },
+        { SDLK_SPACE, false },
+        { SDLK_j, false }
     };
 };
 
