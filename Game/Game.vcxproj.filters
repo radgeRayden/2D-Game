@@ -20,6 +20,9 @@
     <Filter Include="3rd Party\PhysFS++">
       <UniqueIdentifier>{8815a558-33be-4ce1-a7bd-7f602cb4577d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd Party\imgui">
+      <UniqueIdentifier>{55e99caa-44c7-492c-aa74-770a6f38f767}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -45,6 +48,18 @@
     </ClCompile>
     <ClCompile Include="SoundFile.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\imgui\imgui_impl_sdl_gl3.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\imgui\imgui.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\imgui\imgui_demo.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdParty\imgui\imgui_draw.cpp">
+      <Filter>3rd Party\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

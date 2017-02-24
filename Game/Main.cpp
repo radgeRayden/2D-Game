@@ -12,6 +12,8 @@
 #include <soloud.h>
 #include <soloud_wav.h>
 #include <soloud_wavstream.h>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_sdl_gl3.h>
 
 #include "Shader.h"
 #include "Timer.h"
@@ -26,7 +28,13 @@ static SoLoud::Soloud soloud;
 static SoLoud::handle backgroundMusic;
 static SoLoud::Wav tomatoJingleSource;
 
-void GameUpdate(float dt, const InputState currentInputState, const InputState previousInputState) {
+static glm::vec2 playerPosition(0, 300);
+
+static void GameUpdate(float dt, const InputState currentInputState, const InputState previousInputState) {    
+    glm::vec2 playerDirection(0.0f, 0.0f);
+    static float playerSpeed = 100.0f; //px per second
+
+    //music control
     if (currentInputState.GetKey(SDLK_SPACE) && !previousInputState.GetKey(SDLK_SPACE)) {
         bool shouldPause = !soloud.getPause(backgroundMusic);
         soloud.setPause(backgroundMusic, shouldPause);
@@ -34,12 +42,34 @@ void GameUpdate(float dt, const InputState currentInputState, const InputState p
     if (currentInputState.GetKey(SDLK_j) && !previousInputState.GetKey(SDLK_j)) {
         soloud.play(tomatoJingleSource);
     }
+
+    //player movement
+    if (currentInputState.GetKey(SDLK_w)) {
+        playerDirection += glm::vec2(0.0f, 1.0f);
+    }
+    if (currentInputState.GetKey(SDLK_a)) {
+        playerDirection += glm::vec2(-1.0f, 0.0f);
+    }
+    if (currentInputState.GetKey(SDLK_s)) {
+        playerDirection += glm::vec2(0.0f, -1.0f);
+    }
+    if (currentInputState.GetKey(SDLK_d)) {
+        playerDirection += glm::vec2(1.0f, 0.0f);
+    }
+
+//    playerDirection = glm::vec2(1.0f, 0.0f);
+
+    if (glm::length(playerDirection) > 0.0f) {
+        playerDirection = glm::normalize(playerDirection);
+    }
+    
+    playerPosition += playerDirection * playerSpeed * dt;
 }
 
-void GameDraw() {
+static void GameDraw() {
     glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f);
     glm::mat4 model;
-    model = glm::translate(model, glm::vec3(250, 250, 0.0f));
+    model = glm::translate(model, glm::vec3(glm::floor(playerPosition.x), glm::floor(playerPosition.y), 0.0f));
     glm::mat4 view;
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, 0.0f));
     
@@ -51,6 +81,8 @@ void GameDraw() {
     for (auto& sprite : sprites) {
         sprite.Draw();
     }
+
+    ImGui::ShowMetricsWindow();
 }
 
 
@@ -77,6 +109,7 @@ int main(int argc, char* argv[]) {
     //TODO: Add SDL error handling / logging
     auto *window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     auto glcontext = SDL_GL_CreateContext(window);
+    SDL_GL_SetSwapInterval(1);
     gl3wInit();
     glEnable(GL_MULTISAMPLE);
 
@@ -113,6 +146,9 @@ int main(int argc, char* argv[]) {
     currentShader = &defaultShader; //CHANGE THIS
     Sprite testSprite("Sprites/spikeMan_jump.png");
     sprites.push_back(testSprite);
+    
+    // Setup ImGui binding
+    ImGui_ImplSdlGL3_Init(window);
 
     /* Main loop */
     Timer gameTimer;
@@ -125,6 +161,7 @@ int main(int argc, char* argv[]) {
 
     while (!done) {
         while (SDL_PollEvent(&event)) {
+            ImGui_ImplSdlGL3_ProcessEvent(&event);
             switch (event.type) {
                 case SDL_QUIT:
                     //TODO: it's suggested to handle the QUIT event, or add code after the main loop to handle the exit.
@@ -142,23 +179,28 @@ int main(int argc, char* argv[]) {
         }
 
         deltaTime = gameTimer.Step();
-        GameUpdate(deltaTime, currentInputState, previousInputState);
+        GameUpdate(glm::clamp(deltaTime, 0.0f, 1.0f / 30.0f), currentInputState, previousInputState);
         previousInputState = currentInputState;
-        currentInputState.Clear();
+        //currentInputState.Clear();
 
         /* Basic rendering maintenance */
         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT);
+        
+        ImGui_ImplSdlGL3_NewFrame(window);
         //eeww
         if (currentShader->Success()) {
             currentShader->Use(); //we could probably handle this gracefully
         }
         GameDraw();
         
+        ImGui::Render();
+
         SDL_GL_SwapWindow(window);
 
         //let the processor catch a breath
-        SDL_Delay(1);
+        //SDL_Delay(1);
+        
     }
 
     /* Clean up */

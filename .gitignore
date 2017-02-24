@@ -42,3 +42,5 @@
 
 .vs/
 Game/PropertySheet.props 
+/Output/bin_x64/imgui.ini
+/Output/bin_x86/imgui.ini

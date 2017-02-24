@@ -155,6 +155,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="3rdParty\gl3w\gl3w.c" />
+    <ClCompile Include="3rdParty\imgui\imgui.cpp" />
+    <ClCompile Include="3rdParty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="3rdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="3rdParty\imgui\imgui_impl_sdl_gl3.cpp" />
     <ClCompile Include="3rdParty\PhysFS++\physfs.cpp" />
     <ClCompile Include="InputState.cpp" />
     <ClCompile Include="Main.cpp" />
