@@ -7,8 +7,8 @@
 #include <GL/gl3w.h>
 #define STB_IMAGE_IMPLEMENTATION //TODO: this doesn't belong here
 #include <stb_image.h>
-#include <PhysFS++/physfs.hpp>
 #include <cpplog/cpplog.hpp>
+#include <physfs.h>
 
 static cpplog::StdErrLogger logger;
 
@@ -20,14 +20,27 @@ Considerations:
 Sprite::Sprite(const std::string& fileName) {
     //TODO: modularize image loading?
     //TODO: maybe we should use only C-style along with openGL? (make it less gross)
-    PhysFS::ifstream imageStream(fileName);
-    std::unique_ptr<uint8_t[]> imageData = std::make_unique<uint8_t[]>(imageStream.length());
-    imageStream.read((char *)imageData.get(), imageStream.length());
-    
+    //PhysFS::ifstream imageStream(fileName);
+    if(!PHYSFS_exists(fileName.c_str())) {
+        LOG_ERROR(logger) << "Could not open " << fileName << "." << std::endl;
+        return;
+    }
+
+    auto textureFile = PHYSFS_openRead(fileName.c_str());
+    auto fileLength = PHYSFS_fileLength(textureFile);
+
+    if (fileLength == -1) {
+        LOG_ERROR(logger) << "Can't determine the length of " << fileName << "." << std::endl;
+        return;
+    }
+    std::unique_ptr<uint8_t[]> imageData = std::make_unique<uint8_t[]>(fileLength);
+    PHYSFS_read(textureFile, imageData.get(), 1, fileLength);
+    PHYSFS_close(textureFile);
+
     stbi_set_flip_vertically_on_load(true);
 
     int x = 0, y = 0, channels = 0;
-    uint8_t* data = stbi_load_from_memory(imageData.get(), imageStream.length(), &x, &y, &channels, 0);
+    uint8_t* data = stbi_load_from_memory(imageData.get(), fileLength, &x, &y, &channels, 0);
 
     int format;
     switch (channels) {

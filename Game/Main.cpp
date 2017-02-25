@@ -8,7 +8,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <cpplog/cpplog.hpp>
-#include <PhysFS++/physfs.hpp>
 #include <soloud.h>
 #include <soloud_wav.h>
 #include <soloud_wavstream.h>
@@ -21,13 +20,20 @@
 #include "InputState.h"
 #include "SoundFile.h"
 
+//misc globals
 static cpplog::StdErrLogger logger;
+
+//rendering globals
 static Shader* currentShader;
 static std::vector<Sprite> sprites;
+static bool vsync;
+
+//audio globals
 static SoLoud::Soloud soloud;
 static SoLoud::handle backgroundMusic;
 static SoLoud::Wav tomatoJingleSource;
 
+//gameplay globals
 static glm::vec2 playerPosition(0, 300);
 
 static void GameUpdate(float dt, const InputState currentInputState, const InputState previousInputState) {    
@@ -85,6 +91,12 @@ static void GameDraw() {
     ImGui::ShowMetricsWindow();
 }
 
+static void DisplayFileNotFoundError() {
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+        "Missing file",
+        "File is missing. Please reinstall the program.",
+        NULL);
+}
 
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
@@ -109,18 +121,29 @@ int main(int argc, char* argv[]) {
     //TODO: Add SDL error handling / logging
     auto *window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     auto glcontext = SDL_GL_CreateContext(window);
-    SDL_GL_SetSwapInterval(1);
+
+    if (vsync) {
+        SDL_GL_SetSwapInterval(1);
+    }
+    else {
+        SDL_GL_SetSwapInterval(0);
+    }
+    
     gl3wInit();
     glEnable(GL_MULTISAMPLE);
 
     //the mount dir must be set before any game resources are loaded
-    PhysFS::init(argv[0]);
-    PhysFS::mount("../Data", "", true);
+    PHYSFS_init(argv[0]);
+    PHYSFS_mount("../Data", "", true);
 
     //sound variables
     soloud.init();
   
-    SoundFile bgFile("Audio/confection\342\231\245core.ogg");
+    SoundFile bgFile(u8"Audio/confection♥core.ogg");
+    if (!bgFile.IsValid()) {
+        DisplayFileNotFoundError();
+        return 0;
+    }
     SoLoud::WavStream backgroundMusicSource;
     {
         auto err = backgroundMusicSource.loadFile(&bgFile);
@@ -132,7 +155,11 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    SoundFile sample("Audio/tomato.ogg");
+    SoundFile sample(u8"Audio/tomato.ogg");
+    if (!sample.IsValid()) {
+        DisplayFileNotFoundError();
+        return 0;
+    }
     {
         auto err = tomatoJingleSource.loadFile(&sample);
         if (err) {
@@ -144,7 +171,7 @@ int main(int argc, char* argv[]) {
     glm::vec4 clearColor(1.0f, 1.0f, 0.0f, 1.0f);
     Shader defaultShader; //load default shader
     currentShader = &defaultShader; //CHANGE THIS
-    Sprite testSprite("Sprites/spikeMan_jump.png");
+    Sprite testSprite(u8"Sprites/spikeMan_jump.png");
     sprites.push_back(testSprite);
     
     // Setup ImGui binding
@@ -199,7 +226,9 @@ int main(int argc, char* argv[]) {
         SDL_GL_SwapWindow(window);
 
         //let the processor catch a breath
-        //SDL_Delay(1);
+        if(!vsync) {
+            SDL_Delay(1);
+        }
         
     }
 

@@ -17,9 +17,6 @@
     <Filter Include="3rd Party\gl3w">
       <UniqueIdentifier>{a2273107-8787-4647-b8f8-fb5e3b61002d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd Party\PhysFS++">
-      <UniqueIdentifier>{8815a558-33be-4ce1-a7bd-7f602cb4577d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3rd Party\imgui">
       <UniqueIdentifier>{55e99caa-44c7-492c-aa74-770a6f38f767}</UniqueIdentifier>
     </Filter>
@@ -30,9 +27,6 @@
     </ClCompile>
     <ClCompile Include="3rdParty\gl3w\gl3w.c">
       <Filter>3rd Party\gl3w</Filter>
-    </ClCompile>
-    <ClCompile Include="3rdParty\PhysFS++\physfs.cpp">
-      <Filter>3rd Party\PhysFS++</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>

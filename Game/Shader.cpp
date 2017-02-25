@@ -5,7 +5,7 @@
 
 #include <GL/gl3w.h>
 #include <cpplog/cpplog.hpp>
-#include <PhysFS++/physfs.hpp>
+#include <physfs.h>
 
 GLuint Shader::ProgramID() const {
     return programID;
@@ -92,16 +92,16 @@ void Shader::Use() const {
 }
 
 GLchar* Shader::readDataFromFile(const std::string& fileName) {
-    if (PhysFS::exists(fileName)) {
-        PhysFS::ifstream file(fileName);
-        GLchar* data = new GLchar[(size_t) file.length() + 1] { 0 };
-        file.read(data, file.length());
-        return data;
-    }
-    else {
+    if (!PHYSFS_exists(fileName.c_str())) {
         LOG_ERROR(logger) << "Could not open " << fileName << "." << std::endl;
         return nullptr;
     }
+    
+    auto file = PHYSFS_openRead(fileName.c_str());
+    auto fileLength = PHYSFS_fileLength(file);
+    GLchar* data = new GLchar[(size_t) fileLength + 1] { 0 };
+    PHYSFS_read(file, data, 1, fileLength);
+    return data;
 }
 
 //deletes only the shader stages that didn't fail to compile

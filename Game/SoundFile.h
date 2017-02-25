@@ -3,19 +3,21 @@
 #include <memory>
 
 #include <soloud_file.h>
-#include <PhysFS++/physfs.hpp>
+#include <physfs.h>
 
 class SoundFile : public SoLoud::File 
 {
 public:
     SoundFile(const std::string& fileName);
     ~SoundFile();
-    virtual int eof();
-    virtual unsigned int read(unsigned char *aDst, unsigned int aBytes);
-    virtual unsigned int length();
+    int eof();
+    unsigned int read(unsigned char *aDst, unsigned int aBytes);
+    unsigned int length();
     void seek(int aOffset);
-    virtual unsigned int pos();
+    unsigned int pos();
+    bool IsValid();
 private:
-    std::unique_ptr<PhysFS::ifstream> inputStream;
+    PHYSFS_File* fileHandle;
+    bool loadedSuccessfully = false;
 };
 

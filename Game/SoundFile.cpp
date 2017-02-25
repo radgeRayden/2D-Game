@@ -3,37 +3,52 @@
 #include <memory>
 #include <string>
 
-#include <PhysFS++/physfs.hpp>
+#include <cpplog/cpplog.hpp>
+
+static cpplog::StdErrLogger logger;
 
 SoundFile::SoundFile(const std::string& filename) {
-    inputStream = std::make_unique<PhysFS::ifstream>(filename);
+    if (!PHYSFS_exists(filename.c_str())) {
+        LOG_ERROR(logger) << "Could not open " << filename << "." << std::endl;
+        loadedSuccessfully = false;
+        return;
+    }
+    fileHandle = PHYSFS_openRead(filename.c_str());
+    loadedSuccessfully = true;
 }
 
 
 SoundFile::~SoundFile() {
+    if (loadedSuccessfully) {
+        PHYSFS_close(fileHandle);
+    }
 }
 
 int SoundFile::eof() {
-    return inputStream->eof();
+    return PHYSFS_eof(fileHandle);
 }
 unsigned int SoundFile::read(unsigned char *aDst, unsigned int aBytes) {
-    inputStream->read((char *)aDst, aBytes);
-    return aBytes;
+    auto objRead = PHYSFS_read(fileHandle, aDst, aBytes, 1);
+    return aBytes * objRead;
 }
 
 unsigned int SoundFile::length() {
-    return inputStream->length();
+    return PHYSFS_fileLength(fileHandle);
 }
 
 void SoundFile::seek(int aOffset) {
     if (aOffset >= 0) {
-        inputStream->seekg(aOffset);
+        PHYSFS_seek(fileHandle, aOffset);
     }
     else {
-        inputStream->seekg(length() + aOffset);
+        PHYSFS_seek(fileHandle, length() + aOffset);
     }
 }
 
 unsigned int SoundFile::pos() {
-    return inputStream->tellg();
+    return PHYSFS_tell(fileHandle);
+}
+
+bool SoundFile::IsValid() {
+    return loadedSuccessfully;
 }
