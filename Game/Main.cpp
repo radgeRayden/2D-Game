@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    SoundFile sample(u8"Audio/tomato.ogg");
+    SoundFile sample(u8"Audio/🍅.ogg");
     if (!sample.IsValid()) {
         DisplayFileNotFoundError();
         return 0;
