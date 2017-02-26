@@ -19,7 +19,7 @@ SoundFile::SoundFile(const std::string& filename) {
 
 
 SoundFile::~SoundFile() {
-    if (loadedSuccessfully) {
+    if (loadedSuccessfully && PHYSFS_isInit()) {
         PHYSFS_close(fileHandle);
     }
 }

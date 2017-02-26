@@ -134,16 +134,18 @@ int main(int argc, char* argv[]) {
 
     //the mount dir must be set before any game resources are loaded
     PHYSFS_init(argv[0]);
-    PHYSFS_mount("../Data", "", true);
+    PHYSFS_mount(u8"../Data", "", true);
 
     //sound variables
     soloud.init();
-  
+    
+    //sound loading.
     SoundFile bgFile(u8"Audio/confection♥core.ogg");
     if (!bgFile.IsValid()) {
         DisplayFileNotFoundError();
         return 0;
     }
+
     SoLoud::WavStream backgroundMusicSource;
     {
         auto err = backgroundMusicSource.loadFile(&bgFile);
@@ -155,12 +157,13 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    SoundFile sample(u8"Audio/🍅.ogg");
-    if (!sample.IsValid()) {
-        DisplayFileNotFoundError();
-        return 0;
-    }
+    //scope is used so the sample's file handle is released immediately.
     {
+        SoundFile sample(u8"Audio/🍅.ogg");
+        if (!sample.IsValid()) {
+            DisplayFileNotFoundError();
+            return 0;
+        }
         auto err = tomatoJingleSource.loadFile(&sample);
         if (err) {
             LOG_ERROR(logger) << soloud.getErrorString(err);
@@ -175,6 +178,7 @@ int main(int argc, char* argv[]) {
     sprites.push_back(testSprite);
     
     // Setup ImGui binding
+    //TODO: check for error
     ImGui_ImplSdlGL3_Init(window);
 
     /* Main loop */
@@ -237,6 +241,10 @@ int main(int argc, char* argv[]) {
     // I normally destroy the window before anything else for maximum responsiveness but that might be undesirable.
     SDL_DestroyWindow(window);
     SDL_Quit();
+    soloud.stopAll();
+    soloud.deinit();
+    ImGui_ImplSdlGL3_Shutdown();
+    PHYSFS_deinit();
 
     return 0;
 }
