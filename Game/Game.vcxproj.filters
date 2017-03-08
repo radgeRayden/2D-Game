@@ -55,6 +55,9 @@
     <ClCompile Include="3rdParty\imgui\imgui_draw.cpp">
       <Filter>3rd Party\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -70,6 +73,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SoundFile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
