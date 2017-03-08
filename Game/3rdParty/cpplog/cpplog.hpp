@@ -499,12 +499,12 @@ namespace cpplog
 
 #ifdef _DEBUG
 // Only exit in debug mode if CPPLOG_FATAL_EXIT_DEBUG is set.
-#if defined(CPPLOG_FATAL_EXIT_DEBUG) || defined(CPPLOG_FATAL_EXIT)
+#if defined(CPPLOG_FATAL_EXIT_DEBUG) && defined(CPPLOG_FATAL_EXIT)
                     std::exit(1);
 #endif
 #else //!_DEBUG
-#ifdef CPPLOG_FATAL_EXIT_DEBUG
-                    std::exit(1)
+#ifdef CPPLOG_FATAL_EXIT
+                    std::exit(1);
 #endif
 #endif
                 }
